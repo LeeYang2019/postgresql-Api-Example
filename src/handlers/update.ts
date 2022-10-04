@@ -1,31 +1,39 @@
 import prisma from "../db"
 
-export const getUpdate = async (req: any, res: any) => {
-    const update = await prisma.update.findUnique({
-        where: {
-            id: req.params.id
-        }
-    })
-
-    res.json({data: update})
+export const getUpdate = async (req: any, res: any, next: () => void) => {
+    try {
+        const update = await prisma.update.findUnique({
+            where: {
+                id: req.params.id
+            }
+        })
+    
+        res.json({data: update})
+    } catch (error) {
+        next();
+    }
 }
 
-export const getUpdates = async (req: any, res: any) => {
+export const getUpdates = async (req: any, res: any, next: () => void) => {
 
-    const products = await prisma.product.findMany({
-        where: {
-            belongsToId: req.user.id
-        },
-        include: {
-            updates: true
-        }
-    })
-
-    const updates = products.reduce((allupdates: any, product: any) => {
-        return [...allupdates, ...product.updates]
-    }, [])
-
-    res.json({data: products.map(p => updates)})
+    try {
+        const products = await prisma.product.findMany({
+            where: {
+                belongsToId: req.user.id
+            },
+            include: {
+                updates: true
+            }
+        })
+    
+        const updates = products.reduce((allupdates: any, product: any) => {
+            return [...allupdates, ...product.updates]
+        }, [])
+    
+        res.json({data: products.map(p => updates)})
+    } catch (error) {
+        next();
+    }
 }
 
 export const createUpdate = async (req: any, res: any) => {

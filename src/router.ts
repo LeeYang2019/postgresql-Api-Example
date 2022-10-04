@@ -1,5 +1,4 @@
 import {Router} from 'express';
-import {body, validationResult} from 'express-validator';
 import { createProduct, deleteProduct, getUserProduct, getUserProducts, updateProduct } from './handlers/product';
 import { createUpdate, deleteUpdate, getUpdate, getUpdates, updateUpdate } from './handlers/update';
 import { handleInputErrors } from './modules/middleware';
@@ -16,7 +15,7 @@ router.get("/product/:id", getUserProduct);
   
 router.post("/product", createProduct);
   
-router.put("/product/:id", body('name').isString(), handleInputErrors, updateProduct);
+router.put("/product/:id", handleInputErrors, updateProduct);
   
 router.delete("/product/:id", deleteProduct); 
 
