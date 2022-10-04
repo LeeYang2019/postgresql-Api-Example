@@ -19,7 +19,8 @@ export const createJWT = (user: { id: any; username: any; }) => {
 
 export const protect = (req: any, res: any, next: () => void) => {
     const bearer = req.headers.authorization;
-
+    
+    //grab bearer
     if (!bearer) {
         res.status(401);
         res.send("Not authorized");

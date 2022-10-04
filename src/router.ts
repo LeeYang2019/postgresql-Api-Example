@@ -1,4 +1,8 @@
 import {Router} from 'express';
+import {body, validationResult} from 'express-validator';
+import { createProduct, deleteProduct, getUserProduct, getUserProducts, updateProduct } from './handlers/product';
+import { createUpdate, deleteUpdate, getUpdate, getUpdates, updateUpdate } from './handlers/update';
+import { handleInputErrors } from './modules/middleware';
 
 const router = Router();
 
@@ -6,31 +10,29 @@ const router = Router();
  * PRODUCT
  */
 
-router.get("/product", (req, res) => {
-    res.json({ message: "hello" });
-});
+router.get("/product", getUserProducts);
+
+router.get("/product/:id", getUserProduct);
   
-router.get("/product/:id", (req, res) => {});
+router.post("/product", createProduct);
   
-router.post("/product", (req, res) => {});
+router.put("/product/:id", body('name').isString(), handleInputErrors, updateProduct);
   
-router.put("/product/:id", (req, res) => {});
-  
-router.delete("/product/:id", (req, res) => {}); 
+router.delete("/product/:id", deleteProduct); 
 
 /**
  * UPDATE
  */
 
-router.get("/update", (req, res) => {});
+router.get("/update", getUpdates);
 
-router.get("/update/:id", (req, res) => {});
+router.get("/update/:id", getUpdate);
 
-router.post("/update", (req, res) => {});
+router.post("/update", createUpdate);
 
-router.put("/update/:id", (req, res) => {});
+router.put("/update/:id", updateUpdate);
 
-router.delete("/update/:id", (req, res) => {});
+router.delete("/update/:id", deleteUpdate);
 
 /**
  * UPDATE POINT
